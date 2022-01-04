@@ -1,0 +1,26 @@
+version: '3'
+
+services:
+  monolithic:
+    build: ./monolithic
+
+  users:
+    build: ./microservices/user-services
+
+  books:
+    build: ./microservices/book-services
+
+  cars:
+    build: ./microservices/car-services
+
+  nginx:
+    image: nginx:latest
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf 
+    depends_on:
+      - monolithic
+      - users
+      - books
+      - cars
